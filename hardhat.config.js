@@ -31,6 +31,8 @@ module.exports = {
         deployer: {
             default: 0
         }
+    },
+    mocha: {
+        timeout: 500000 // 500 seconds max for running tests
     }
-
 };

@@ -9,7 +9,7 @@ const networkConfig = {
     },
     4: {
         name: "rinkeby",
-        subscriptionId: "6926",
+        subscriptionId: "10572",
         keyHash: "0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc",
         keepersUpdateInterval: "30",
         lotteryEntranceFee: "100000000000000000", // 0.1 ETH
