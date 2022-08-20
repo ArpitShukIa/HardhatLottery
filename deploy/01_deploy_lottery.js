@@ -8,12 +8,12 @@ module.exports = async ({getNamedAccounts, deployments}) => {
     const {deploy, log} = deployments
     const {deployer} = await getNamedAccounts()
     const chainId = network.config.chainId
-    let vrfCoordinatorV2Address, subscriptionId
+    let vrfCoordinatorV2Mock, vrfCoordinatorV2Address, subscriptionId
 
     if (chainId === 31337) {
         // create VRFV2 Subscription
         const {abi, address} = await deployments.get("VRFCoordinatorV2Mock")
-        const vrfCoordinatorV2Mock = await ethers.getContractAt(abi, address)
+        vrfCoordinatorV2Mock = await ethers.getContractAt(abi, address)
         vrfCoordinatorV2Address = vrfCoordinatorV2Mock.address
         const transactionResponse = await vrfCoordinatorV2Mock.createSubscription()
         const transactionReceipt = await transactionResponse.wait()
@@ -41,6 +41,10 @@ module.exports = async ({getNamedAccounts, deployments}) => {
         log: true,
         waitConfirmations: waitBlockConfirmations,
     })
+
+    if(chainId === 31337) {
+        vrfCoordinatorV2Mock.addConsumer(subscriptionId, lottery.address)
+    }
 
     // Verify the deployment
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
